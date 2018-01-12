@@ -17,9 +17,12 @@ mongoClient.connect(url, function(err, connection) {
     throw err;
   } else {
     db = connection;
+    var collection = db.collection('city'); // create Collection
     console.log("Database created!");
   }
 });
+
+
 
 //endpoint cities
 app.get("/api/cities", (req,res) => {
