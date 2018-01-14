@@ -42,9 +42,24 @@ app.get("/api/cities", (req,res) => {
 // POST
 //
 app.post("/api/cities", (req,res) => {
+var cityname=req.body.cityname;
 var population=req.body.population;
+var area=req.body.area;
+var avgtemp=req.body.avgtemp;
+var nou=req.body.nou;
+var urate=req.body.rate;
+var isCapital=req.body.isCapital;
+var hasLakes=req.body.hasLakes;
+var hasTrainstation=req.body.hasTrainstation;
 
+console.log("Cityname: " +cityname);
 console.log("Population: "+population);
+console.log("Area: "+area);
+console.log("AvgTemp: " +avgtemp);
+console.log("Nou: " +nou);
+console.log("isCapital: " +isCapital);
+console.log("hasLakes: " +hasLakes);
+console.log("hasTrainstation: " +hasTrainstation);
 res.end("yes");
 });
 
