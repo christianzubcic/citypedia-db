@@ -42,13 +42,10 @@ app.get("/api/cities", (req,res) => {
 // POST
 //
 app.post("/api/cities", (req,res) => {
-  var db = req.db;
-    var collection = db.get('citypediadb');
-    collection.insert(req.body, function(err, result){
-        res.send(
-            (err === null) ? { msg: '' } : { msg: err }
-        );
-    });
+var population=req.body.population;
+
+console.log("Population: "+population);
+res.end("yes");
 });
 
 
