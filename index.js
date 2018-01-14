@@ -1,4 +1,5 @@
 var express = require('express');
+const bodyParser= require('body-parser');
 var mongodb = require('mongodb');
 
 var url = "mongodb://localhost:27017/citypedia";
@@ -6,7 +7,6 @@ var url = "mongodb://localhost:27017/citypedia";
 const mongoClient = mongodb.MongoClient;
 const app = express();
 let db // Datenbank handle
-
 
 console.log("Creating database...");
 //Connection zur Datenbank
@@ -21,11 +21,36 @@ mongoClient.connect(url, function(err, connection) {
   }
 });
 
-//endpoint cities
-app.get("/api/cities", (req,res) => {
-  res.send(result);
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json());
 
+
+//
+// GET
+//
+
+app.get("/api/cities", (req,res) => {
+  //werte aus db lesen
+  var werte = ["kek"];
+  res.send(werte);
   res.status(200).end();
 });
+
+
+
+//
+// POST
+//
+app.post("/api/cities", (req,res) => {
+  var db = req.db;
+    var collection = db.get('citypediadb');
+    collection.insert(req.body, function(err, result){
+        res.send(
+            (err === null) ? { msg: '' } : { msg: err }
+        );
+    });
+});
+
+
 
 app.listen(3000, function (){console.log("Listening on Port 3000!")});
