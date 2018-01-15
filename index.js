@@ -71,6 +71,7 @@ var urate=req.body.rate;
 var isCapital=req.body.isCapital;
 var hasLakes=req.body.hasLakes;
 var hasTrainstation=req.body.hasTrainstation;
+var link=req.body.link;
 
 var MongoClient = require('mongodb').MongoClient;
 
@@ -91,7 +92,8 @@ MongoClient.connect(url, function(err, db) {
   urate: urate,
   isCapital: isCapital,
   hasLakes: hasLakes,
-  hasTrainstation: hasTrainstation
+  hasTrainstation: hasTrainstation,
+  link: link
   },
   {upsert: true}, function(err, res) {
 
@@ -110,6 +112,8 @@ console.log("Nou: " +nou);
 console.log("isCapital: " +isCapital);
 console.log("hasLakes: " +hasLakes);
 console.log("hasTrainstation: " +hasTrainstation);
+console.log("link: " +link);
+console.log("your welcome");
 res.end("yes");
 });
 
