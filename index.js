@@ -63,11 +63,12 @@ app.get("/api/cities", (req,res) => {
 //
 app.post("/api/cities", (req,res) => {
 var cityname=req.body.cityname;
+var country=req.body.country;
 var population=req.body.population;
 var area=req.body.area;
 var avgtemp=req.body.avgtemp;
 var nou=req.body.nou;
-var urate=req.body.rate;
+var urate=req.body.urate;
 var isCapital=req.body.isCapital;
 var hasLakes=req.body.hasLakes;
 var hasTrainstation=req.body.hasTrainstation;
@@ -85,6 +86,7 @@ MongoClient.connect(url, function(err, db) {
   dbo.collection("citycollection").update({cityname: cityname},
   {
   cityname: cityname,
+  country: country,
   population: population,
   area: area,
   avgtemp: avgtemp,
@@ -105,6 +107,7 @@ MongoClient.connect(url, function(err, db) {
 
 
 console.log("Cityname: " +cityname);
+console.log("Country: " +country);
 console.log("Population: "+population);
 console.log("Area: "+area);
 console.log("AvgTemp: " +avgtemp);
@@ -113,7 +116,6 @@ console.log("isCapital: " +isCapital);
 console.log("hasLakes: " +hasLakes);
 console.log("hasTrainstation: " +hasTrainstation);
 console.log("link: " +link);
-console.log("your welcome");
 res.end("yes");
 });
 
