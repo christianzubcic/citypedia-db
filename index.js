@@ -44,6 +44,7 @@ app.use(function (req, res, next) {
 });
 
 
+
 //
 // GET
 //
@@ -111,7 +112,6 @@ console.log("hasLakes: " +hasLakes);
 console.log("hasTrainstation: " +hasTrainstation);
 res.end("yes");
 });
-
 
 
 
