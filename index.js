@@ -23,6 +23,25 @@ mongoClient.connect(url, function(err, connection) {
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
+// Add headers
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
 
 
 //
@@ -52,6 +71,36 @@ var isCapital=req.body.isCapital;
 var hasLakes=req.body.hasLakes;
 var hasTrainstation=req.body.hasTrainstation;
 
+var MongoClient = require('mongodb').MongoClient;
+
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  var dbo = db.db("database-db");
+
+
+
+  dbo.collection("citycollection").update({cityname: cityname},
+  {
+  cityname: cityname,
+  population: population,
+  area: area,
+  avgtemp: avgtemp,
+  nou: nou,
+  urate: urate,
+  isCapital: isCapital,
+  hasLakes: hasLakes,
+  hasTrainstation: hasTrainstation
+  },
+  {upsert: true}, function(err, res) {
+
+    if (err) throw err;
+    console.log("1 document inserted");
+    db.close();
+  });
+});
+
+
 console.log("Cityname: " +cityname);
 console.log("Population: "+population);
 console.log("Area: "+area);
@@ -62,6 +111,7 @@ console.log("hasLakes: " +hasLakes);
 console.log("hasTrainstation: " +hasTrainstation);
 res.end("yes");
 });
+
 
 
 
