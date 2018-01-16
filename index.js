@@ -70,6 +70,23 @@ app.get("/api/cities", (req,res) => {
 });
 
 
+app.get("/api/city", (req,res) => {
+  //werte aus db lesen
+  mongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("database-db");
+    dbo.collection("citycollection").find({}).toArray(function(err, result) {
+      if (err) throw err;
+      werte = result;
+      console.log("Cities loaded");
+      res.send(werte);
+      res.status(200).end();
+    });
+  });
+
+});
+
+
 
 //
 // POST
