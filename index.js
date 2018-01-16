@@ -7,7 +7,8 @@ var url = "mongodb://localhost:27017/citypedia-db";
 const mongoClient = mongodb.MongoClient;
 const app = express();
 let db // Datenbank handle
-let werte
+let cities
+let city
 
 console.log("Creating database...");
 //Connection zur Datenbank
@@ -60,9 +61,9 @@ app.get("/api/cities", (req,res) => {
     var dbo = db.db("database-db");
     dbo.collection("citycollection").find({}).toArray(function(err, result) {
       if (err) throw err;
-      werte = result;
+      cities = result;
       console.log("Cities loaded");
-      res.send(werte);
+      res.send(cities);
       res.status(200).end();
     });
   });
@@ -70,16 +71,17 @@ app.get("/api/cities", (req,res) => {
 });
 
 
-app.get("/api/city", (req,res) => {
+app.get("/api/city/:name", (req,res) => {
   //werte aus db lesen
   mongoClient.connect(url, function(err, db) {
+    var name = req.params.name;
     if (err) throw err;
     var dbo = db.db("database-db");
-    dbo.collection("citycollection").find({}).toArray(function(err, result) {
+    dbo.collection("citycollection").find({ cityname: name }).toArray(function(err, result) {
       if (err) throw err;
-      werte = result;
-      console.log("Cities loaded");
-      res.send(werte);
+      city = result;
+      console.log("City loaded");
+      res.send(city);
       res.status(200).end();
     });
   });
