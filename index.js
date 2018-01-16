@@ -2,11 +2,12 @@ var express = require('express');
 const bodyParser= require('body-parser');
 var mongodb = require('mongodb');
 
-var url = "mongodb://localhost:27017/citypedia";
+var url = "mongodb://localhost:27017/citypedia-db";
 
 const mongoClient = mongodb.MongoClient;
 const app = express();
 let db // Datenbank handle
+let werte
 
 console.log("Creating database...");
 //Connection zur Datenbank
@@ -20,6 +21,9 @@ mongoClient.connect(url, function(err, connection) {
     console.log("Database created!");
   }
 });
+
+//GET ALL CITIES
+
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
@@ -51,9 +55,18 @@ app.use(function (req, res, next) {
 
 app.get("/api/cities", (req,res) => {
   //werte aus db lesen
-  var werte = ["kek"];
-  res.send(werte);
-  res.status(200).end();
+  mongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("database-db");
+    dbo.collection("citycollection").find({}).toArray(function(err, result) {
+      if (err) throw err;
+      werte = result;
+      console.log("Cities loaded");
+      res.send(werte);
+      res.status(200).end();
+    });
+  });
+
 });
 
 
@@ -116,7 +129,7 @@ console.log("isCapital: " +isCapital);
 console.log("hasLakes: " +hasLakes);
 console.log("hasTrainstation: " +hasTrainstation);
 console.log("link: " +link);
-res.end("yes");
+res.end("submitted");
 });
 
 
