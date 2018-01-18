@@ -120,8 +120,10 @@ app.post("/api/userauth", (req, res) => {
     if(e != null || login == null) {
       res.send({loggedin: false}).status(200).end();
       return;
+    } else {
+      res.send({loggedin: true}).status(200).end();      
     }
-    res.send({loggedin: true}).status(200).end();
+
   });
 });
 
