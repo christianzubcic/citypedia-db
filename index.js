@@ -1,8 +1,13 @@
 var express = require('express');
 const bodyParser= require('body-parser');
 var mongodb = require('mongodb');
-
+const CLIENT_ID = "340370812528-fqkdef2ah126p3i1opeuqslgtv9vnu61.apps.googleusercontent.com";
 var url = "mongodb://localhost:27017/citypedia-db";
+
+var GoogleAuth = require('google-auth-library');
+var auth = new GoogleAuth;
+var client = new auth.OAuth2(CLIENT_ID, '', '');
+
 
 const mongoClient = mongodb.MongoClient;
 const app = express();
@@ -38,7 +43,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -93,6 +98,34 @@ app.get("/api/city/:name", (req,res) => {
 //
 // POST
 //
+
+app.post("/api/userauth", (req, res) => {
+  var token = req.get("Authorization");
+
+  if (token == null) {
+    res.send({loggedin: false}).status(200).end();
+    return;
+  }
+
+  //token = token.replace(/(B|b)earer( )*/i,"");
+
+  client.verifyIdToken(token, CLIENT_ID, (e, login) => {
+    console.log("---------------------------------------------");
+    console.log(e);
+    console.log("---------------------------------------------");
+    console.log(login);
+    console.log("---------------------------------------------");
+    // var payload = login.getPayload();
+    // var userid = payload['sub'];
+    if(e != null || login == null) {
+      res.send({loggedin: false}).status(200).end();
+      return;
+    }
+    res.send({loggedin: true}).status(200).end();
+  });
+});
+
+
 app.post("/api/cities", (req,res) => {
 var cityname=req.body.cityname;
 var country=req.body.country;
@@ -136,7 +169,6 @@ MongoClient.connect(url, function(err, db) {
     db.close();
   });
 });
-
 
 console.log("Cityname: " +cityname);
 console.log("Country: " +country);
