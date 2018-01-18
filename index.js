@@ -99,6 +99,8 @@ app.get("/api/city/:name", (req,res) => {
 // POST
 //
 
+//TODO FIX BUG IN DB-CONSOLE
+
 app.post("/api/userauth", (req, res) => {
   var token = req.get("Authorization");
 
@@ -121,7 +123,7 @@ app.post("/api/userauth", (req, res) => {
       res.send({loggedin: false}).status(200).end();
       return;
     } else {
-      res.send({loggedin: true}).status(200).end();      
+      res.send({loggedin: true}).status(200).end();
     }
 
   });
