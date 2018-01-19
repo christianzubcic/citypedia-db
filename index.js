@@ -37,13 +37,13 @@ app.use(bodyParser.json());
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization');
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -113,8 +113,6 @@ app.post("/api/userauth", (req, res) => {
 
   client.verifyIdToken(token, CLIENT_ID, (e, login) => {
     console.log("---------------------------------------------");
-    console.log(e);
-    console.log("---------------------------------------------");
     console.log(login);
     console.log("---------------------------------------------");
     // var payload = login.getPayload();
@@ -124,6 +122,7 @@ app.post("/api/userauth", (req, res) => {
       return;
     } else {
       res.send({loggedin: true}).status(200).end();
+      return;
     }
 
   });
