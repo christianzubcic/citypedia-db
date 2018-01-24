@@ -3,7 +3,7 @@ const bodyParser= require('body-parser');
 var mongodb = require('mongodb');
 const CLIENT_ID = "340370812528-fqkdef2ah126p3i1opeuqslgtv9vnu61.apps.googleusercontent.com";
 const CLIENT_KEY = "btfgj_sK1aboXn50WMI3k0Vb";
-var url = "mongodb://localhost:27017/citypedia-db";
+var url = "mongodb://0.0.0.0:27017/citypedia-db";
 
 var GoogleAuth = require('google-auth-library');
 var auth = new GoogleAuth;
