@@ -3,7 +3,7 @@ const bodyParser= require('body-parser');
 var mongodb = require('mongodb');
 const CLIENT_ID = "340370812528-fqkdef2ah126p3i1opeuqslgtv9vnu61.apps.googleusercontent.com";
 const CLIENT_KEY = "btfgj_sK1aboXn50WMI3k0Vb";
-var url = "mongodb://0.0.0.0:27017/citypedia-db";
+var url = `mongodb://citypedia_db:27017/citypedia-db`;
 
 var GoogleAuth = require('google-auth-library');
 var auth = new GoogleAuth;
@@ -127,43 +127,7 @@ app.post("/api/userauth", (req, res) => {
     }
   })
 });
-//
-//
-// app.post("/api/userauth", (req, res) => {
-//   var token = "";
-//   var authorization = req.headers["authorization"];
-// var items = authorization.split(/[ ]+/);
-//
-// if (items.length > 1 && items[0].trim() == "Bearer") {
-//    var token = items[1];
-//    console.log("hier könnte ihr token stehen");
-//    if (token) {
-//        var verifyToken = function(token, audience, callback) {
-//            client.verifyIdToken(token, CLIENT_ID,
-//              function(e, login) {
-//                console.log(e);
-//                if (login) {
-//                  var payload = login.getPayload();
-//                  var googleId = payload['sub'];
-//                  console.log(googleId);
-//                  resolve(googleId);
-//                  next();
-//                } else {
-//                  reject("invalid token");
-//                }
-//              }).then(function(googleId) {
-//                console.log("res send googleID")
-//                res.send(googleId);
-//              }).catch(function(err) {
-//                res.send(err);
-//              })
-//            }
-//          }
-//          else {
-//            res.send("Please pass token");
-//          }
-//        }
-//      });
+
 
 app.post("/api/cities", (req,res) => {
 var cityname=req.body.cityname;
